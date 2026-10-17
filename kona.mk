@@ -147,15 +147,13 @@ PRODUCT_PACKAGES += \
 # Consumer IR
 ifneq ($(TARGET_IS_TABLET),true)
 PRODUCT_PACKAGES += \
-    android.hardware.ir-service.lineage
+    android.hardware.ir-service.example
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.consumerir.xml
 endif
 
-# Device-specific settings
-PRODUCT_PACKAGES += \
-    XiaomiParts
+# XiaomiParts removed for AOSP port (LineageOS app, requires lineage-sdk)
 
 # Display
 PRODUCT_PACKAGES += \
@@ -185,14 +183,9 @@ $(call soong_config_set,surfaceflinger,udfps_lib,//hardware/xiaomi:libudfps_exte
 endif
 endif
 
-# Health
+# Health (qti variant dropped for pure-AOSP port)
 PRODUCT_PACKAGES += \
-    android.hardware.health-service.qti
-
-ifneq ($(TARGET_IS_VAB),true)
-PRODUCT_PACKAGES += \
-    android.hardware.health-service.qti_recovery
-endif
+    android.hardware.health-service.example
 
 # HotwordEnrollement app permissions
 PRODUCT_COPY_FILES += \
@@ -232,11 +225,9 @@ PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light-service.lineage
+    android.hardware.lights-service.example
 
-# Lineage Health
-PRODUCT_PACKAGES += \
-    vendor.lineage.health-service.default
+# Lineage Health — dropped for pure-AOSP port (revisit: AOSP health-service if qti unavailable)
 
 $(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,false)
 
@@ -289,7 +280,7 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power-service.lineage-libperfmgr \
+    android.hardware.power-service.example \
     libqti-perfd-client
 
 PRODUCT_COPY_FILES += \
@@ -333,14 +324,14 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-service
 
 # Soong namespaces
+# 2026-10-17: lib_driver_cmd_qcwcn visibility for BOARD_WLAN_DEVICE=qcwcn (AOSP wpa_supplicant_8 soong config)
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
     hardware/google/interfaces \
-    hardware/google/pixel/power-libperfmgr \
-    hardware/lineage/interfaces/power-libperfmgr \
     hardware/qcom-caf/common/libqti-perfd-client \
     hardware/xiaomi \
-    vendor/qcom/opensource/usb/etc
+    vendor/qcom/opensource/usb/etc \
+    hardware/qcom-caf/wlan/qcwcn
 
 # Telephony
 PRODUCT_PACKAGES += \

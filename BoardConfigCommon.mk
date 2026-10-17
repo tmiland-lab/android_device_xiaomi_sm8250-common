@@ -132,6 +132,13 @@ BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 9122611200 # (BOARD_SUPER_PARTITION_SIZE - 
 # Partitions - reserved size
 -include vendor/lineage/config/BoardConfigReservedSize.mk
 
+# Lineage soong config vars (KERNEL_* etc.) used by vendor/lineage/build/soong.
+# Normally included via vendor/lineage/config/BoardConfigLineage.mk, which is
+# gated on LINEAGE_BUILD (only set for lineage_* products). This port builds
+# the non-lineage aosp_apollon product, so pull the needed pieces in directly.
+include vendor/lineage/config/BoardConfigKernel.mk
+include vendor/lineage/config/BoardConfigSoong.mk
+
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_BOARD_PLATFORM := kona
@@ -173,9 +180,9 @@ endif
 VENDOR_SECURITY_PATCH := 2025-04-01
 
 # Sepolicy
-include device/lineage/sepolicy/libion/sepolicy.mk
+# include device/lineage/sepolicy/libion/sepolicy.mk  # dropped: Lineage-only (pure-AOSP port)
 include device/qcom/sepolicy_vndr/SEPolicy.mk
-include device/lineage/sepolicy/libperfmgr/sepolicy.mk
+# include device/lineage/sepolicy/libperfmgr/sepolicy.mk  # dropped: Lineage-only (pure-AOSP port)
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/private
 SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/public
 BOARD_VENDOR_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
