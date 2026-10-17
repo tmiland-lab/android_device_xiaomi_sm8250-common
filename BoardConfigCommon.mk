@@ -243,3 +243,11 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Inherit the proprietary files
 include vendor/xiaomi/sm8250-common/BoardConfigVendor.mk
+
+# Lineage-only phony (hardware/xiaomi/packages/Euicc) requires packages/apps/EuiccPolicy,
+# which is not in this AOSP+device-tree manifest. Intentional for bring-up.
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
+
+# Pure-AOSP product: vendor/lineage adds org.lineageos.platform to system server jars,
+# but this product does not install it. Skip the dexpreopt artifact check.
+DISABLE_DEXPREOPT_CHECK := true
